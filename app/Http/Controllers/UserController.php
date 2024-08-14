@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use function Laravel\Prompts\error;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -12,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-      return view('/users.index');
+      return view('users.index');
     }
 
     /**
@@ -20,7 +25,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('/users.create');
+        return view('users.create');
     }
 
     /**
@@ -62,4 +67,17 @@ class UserController extends Controller
     {
         //
     }
+    public function login(Request $request){
+        $request->validate([
+            'user_name'=>'required|string|exists:users,name',
+            'password'=>'required|min:8',
+        ]);
+        $user=User::where('name',$request->user_name)->first();
+        if(Hash::check($request->password, $user->password)){
+        Auth::login($user);
+        return redirect()->route('home');
+    }  return back()->withErrors([
+        'user_name' => 'The provided credentials do not match our records.',
+    ]);
+}
 }
