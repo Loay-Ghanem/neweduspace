@@ -75,9 +75,16 @@ class UserController extends Controller
         $user=User::where('name',$request->user_name)->first();
         if(Hash::check($request->password, $user->password)){
         Auth::login($user);
+        $user->createToken($user->name)->plainTextToken;
         return redirect()->route('home');
     }  return back()->withErrors([
         'user_name' => 'The provided credentials do not match our records.',
     ]);
 }
+    public function logout(){
+        $user=Auth::user();
+        $user->tokens()->delete();
+        return redirect()->route('login');
+    }
 }
+
