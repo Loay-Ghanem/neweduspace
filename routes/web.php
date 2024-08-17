@@ -23,5 +23,6 @@ Route::resource('users',UserController::class);
 //  Route::resources('/subject/index1',[SubjectController::class,'index']);
 Route::post('/llogin',[UserController::class,'login'])->name('login');
 Route::view('/llogin','llogin')->name('llogin');
+Route::post('/signup',[UserController::class,'store'])->name('signup');
 //Route::get('/delete',[UserController::class,'logout']);
 Route::delete('/delete',[UserController::class,'logout'])->name('logout');

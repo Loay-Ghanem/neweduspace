@@ -25,15 +25,20 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return view('signup');
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
+    {  $user =new user();
+       $user->name= $request->input('user_name');
+       $user->email= $request->input('email');
+       $user->password= Hash::make($request->input('password'));
+    //    $user->password= $request->input('password');
+       $user->save();
+       return redirect()->route('llogin');
     }
 
     /**
