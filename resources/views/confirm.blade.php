@@ -3,7 +3,7 @@
 @section('contant')
 <div class="content">
     <div class="mid-section">
-        <h1> confirm page <h1>
+        <h1> confirm page !<h1>
     </div>
 </div>
 @endsection
